@@ -1,11 +1,11 @@
 
-import { Pill, Heart, Sparkles, Baby, Soap } from 'lucide-react';
+import { Pill, Heart, Sparkles, Baby, Droplets } from 'lucide-react';
 
 const categories = [
   { id: 'medicamentos', name: 'Medicamentos', icon: Pill },
   { id: 'vitaminas', name: 'Vitaminas', icon: Heart },
   { id: 'cuidado', name: 'Cuidado Pessoal', icon: Sparkles },
-  { id: 'higiene', name: 'Higiene', icon: Soap },
+  { id: 'higiene', name: 'Higiene', icon: Droplets },
   { id: 'bebe', name: 'Bebê', icon: Baby },
 ];
 
