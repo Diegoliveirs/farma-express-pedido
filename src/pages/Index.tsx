@@ -5,16 +5,38 @@ import Header from '@/components/Header';
 import CategoryTabs from '@/components/CategoryTabs';
 import ProductCard from '@/components/ProductCard';
 import Cart from '@/components/Cart';
-import ConfirmationModal from '@/components/ConfirmationModal';
+import CustomerInfoForm from '@/components/CustomerInfoForm';
+import DeliveryOptions from '@/components/DeliveryOptions';
+import AddressForm from '@/components/AddressForm';
+import OrderSummary from '@/components/OrderSummary';
+import SuccessScreen from '@/components/SuccessScreen';
 import { useCart } from '@/hooks/useCart';
 import { products } from '@/data/products';
 import { sendWhatsAppOrder } from '@/utils/whatsapp';
 
+type FlowStep = 'products' | 'cart' | 'customer-info' | 'delivery-options' | 'address' | 'summary' | 'success';
+
+interface CustomerInfo {
+  name: string;
+  phone: string;
+}
+
+interface AddressInfo {
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  deliveryFee: number;
+}
+
 const Index = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [activeCategory, setActiveCategory] = useState('medicamentos');
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [currentStep, setCurrentStep] = useState<FlowStep>('products');
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
+  const [deliveryType, setDeliveryType] = useState<'pickup' | 'delivery' | null>(null);
+  const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
+  const [orderNumber, setOrderNumber] = useState('');
   
   const {
     items,
@@ -28,33 +50,132 @@ const Index = () => {
 
   const filteredProducts = products.filter(product => product.category === activeCategory);
 
-  const handleCheckout = () => {
+  const generateOrderNumber = () => {
+    const timestamp = Date.now().toString().slice(-6);
+    const random = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+    return `${timestamp}${random}`;
+  };
+
+  const handleCartCheckout = () => {
     if (items.length === 0) return;
-    
-    sendWhatsAppOrder(items);
-    setIsCartOpen(false);
-    setShowConfirmation(true);
+    setCurrentStep('customer-info');
+  };
+
+  const handleCustomerInfoSubmit = (data: CustomerInfo) => {
+    setCustomerInfo(data);
+    setCurrentStep('delivery-options');
+  };
+
+  const handlePickupSelect = () => {
+    setDeliveryType('pickup');
+    setOrderNumber(generateOrderNumber());
+    setCurrentStep('summary');
+  };
+
+  const handleDeliverySelect = () => {
+    setDeliveryType('delivery');
+    setCurrentStep('address');
+  };
+
+  const handleAddressSubmit = (data: AddressInfo) => {
+    setAddressInfo(data);
+    setOrderNumber(generateOrderNumber());
+    setCurrentStep('summary');
+  };
+
+  const handleOrderConfirm = () => {
+    if (!customerInfo || !deliveryType) return;
+
+    const orderData = {
+      orderNumber,
+      customerInfo,
+      items,
+      deliveryType,
+      addressInfo: deliveryType === 'delivery' ? addressInfo : undefined
+    };
+
+    sendWhatsAppOrder(orderData);
+    setCurrentStep('success');
     clearCart();
   };
 
-  const handleConfirmationClose = () => {
-    setShowConfirmation(false);
-  };
-
-  const handleBackToProducts = () => {
-    setShowConfirmation(false);
+  const handleBackToHome = () => {
+    setCurrentStep('products');
     setActiveCategory('medicamentos');
+    setCustomerInfo(null);
+    setDeliveryType(null);
+    setAddressInfo(null);
+    setOrderNumber('');
   };
 
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
+  // Renderizar componentes baseado no step atual
+  if (currentStep === 'customer-info') {
+    return (
+      <CustomerInfoForm
+        onSubmit={handleCustomerInfoSubmit}
+        onBack={() => setCurrentStep('cart')}
+      />
+    );
+  }
+
+  if (currentStep === 'delivery-options' && customerInfo) {
+    return (
+      <DeliveryOptions
+        onSelectPickup={handlePickupSelect}
+        onSelectDelivery={handleDeliverySelect}
+        onBack={() => setCurrentStep('customer-info')}
+        customerInfo={customerInfo}
+      />
+    );
+  }
+
+  if (currentStep === 'address') {
+    return (
+      <AddressForm
+        onSubmit={handleAddressSubmit}
+        onBack={() => setCurrentStep('delivery-options')}
+      />
+    );
+  }
+
+  if (currentStep === 'summary' && customerInfo && deliveryType) {
+    return (
+      <OrderSummary
+        orderNumber={orderNumber}
+        customerInfo={customerInfo}
+        items={items}
+        deliveryType={deliveryType}
+        addressInfo={addressInfo}
+        onConfirm={handleOrderConfirm}
+        onBack={() => {
+          if (deliveryType === 'delivery') {
+            setCurrentStep('address');
+          } else {
+            setCurrentStep('delivery-options');
+          }
+        }}
+      />
+    );
+  }
+
+  if (currentStep === 'success') {
+    return (
+      <SuccessScreen
+        orderNumber={orderNumber}
+        onBackToHome={handleBackToHome}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header 
         cartItemsCount={getTotalItems()} 
-        onCartClick={() => setIsCartOpen(true)}
+        onCartClick={() => setCurrentStep('cart')}
       />
       
       <CategoryTabs 
@@ -83,17 +204,11 @@ const Index = () => {
       </main>
 
       <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
+        isOpen={currentStep === 'cart'}
+        onClose={() => setCurrentStep('products')}
         items={items}
         onUpdateQuantity={updateQuantity}
-        onCheckout={handleCheckout}
-      />
-
-      <ConfirmationModal
-        isOpen={showConfirmation}
-        onClose={handleConfirmationClose}
-        onBackToProducts={handleBackToProducts}
+        onCheckout={handleCartCheckout}
       />
     </div>
   );
