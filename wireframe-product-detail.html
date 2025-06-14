@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Product Detail Modal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            padding: 20px;
+        }
+        
+        .wireframe {
+            border: 2px solid #000;
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            position: relative;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px 20px 0 0;
+            border: 3px solid #000;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 2px solid #000;
+        }
+        
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #000;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        .product-image {
+            width: 128px;
+            height: 128px;
+            border: 2px solid #000;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+        }
+        
+        .product-info {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .product-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border: 1px dashed #666;
+            padding: 8px;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 16px;
+            border: 1px dashed #666;
+            padding: 8px;
+        }
+        
+        .price-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .price {
+            font-size: 30px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        
+        .price-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .info-box {
+            background: #f9fafb;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .footer {
+            border-top: 2px solid #000;
+            padding: 16px;
+            background: #f9fafb;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .quantity-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #dc2626;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .qty-number {
+            font-size: 20px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .subtotal {
+            text-align: right;
+        }
+        
+        .subtotal-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .subtotal-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #dc2626;
+        }
+        
+        .add-btn {
+            width: 100%;
+            height: 48px;
+            background: #dc2626;
+            color: white;
+            border: 2px solid #000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .label {
+            background: #ffeb3b;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wireframe - Product Detail Modal</h1>
+    <p><strong>Descrição:</strong> Modal que abre quando o usuário clica em um produto</p>
+    
+    <div class="overlay">
+        <div class="modal">
+            <div class="label">MODAL OVERLAY</div>
+            
+            <!-- Header -->
+            <div class="header wireframe">
+                <div class="label">HEADER</div>
+                <div style="font-weight: bold;">Detalhes do Produto</div>
+                <div class="close-btn">✕</div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <!-- Product Image -->
+                <div class="product-image wireframe">
+                    <div class="label">IMAGEM</div>
+                    <div>📦 PRODUTO</div>
+                </div>
+                
+                <!-- Product Info -->
+                <div class="product-info wireframe">
+                    <div class="label">INFO PRODUTO</div>
+                    <div class="product-title">Nome do Produto</div>
+                    <div class="product-description">Descrição detalhada do produto aqui...</div>
+                    
+                    <div class="price-box wireframe">
+                        <div class="label">PREÇO</div>
+                        <div class="price">R$ 29,90</div>
+                        <div class="price-label">Preço por unidade</div>
+                    </div>
+                </div>
+                
+                <!-- Additional Info -->
+                <div class="info-box wireframe">
+                    <div class="label">INFORMAÇÕES</div>
+                    <div class="info-title">Informações:</div>
+                    <div class="info-row">
+                        <span>Categoria:</span>
+                        <span>💊 Medicamentos</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Disponibilidade:</span>
+                        <span style="color: green;">Em estoque</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer wireframe">
+                <div class="label">FOOTER - AÇÕES</div>
+                
+                <!-- Quantity Controls (when item in cart) -->
+                <div class="quantity-controls wireframe" style="border: 1px dashed #999; padding: 10px; margin-bottom: 10px;">
+                    <div class="label">CONTROLES QTD</div>
+                    <div class="quantity-section">
+                        <div class="qty-btn">−</div>
+                        <div class="qty-number">2</div>
+                        <div class="qty-btn">+</div>
+                    </div>
+                    <div class="subtotal">
+                        <div class="subtotal-label">Subtotal:</div>
+                        <div class="subtotal-value">R$ 59,80</div>
+                    </div>
+                </div>
+                
+                <!-- Add Button (when item not in cart) -->
+                <div class="wireframe" style="border: 1px dashed #999; padding: 10px; margin-bottom: 10px;">
+                    <div class="label">BOTÃO ADICIONAR</div>
+                    <div class="add-btn">+ Adicionar ao Carrinho</div>
+                </div>
+                
+                <div class="footer-note">Toque fora da tela para fechar</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Specifications -->
+    <div style="margin-top: 40px; padding: 20px; background: white; border: 2px solid #000;">
+        <h2>Especificações da Tela</h2>
+        <ul style="margin: 20px 0; line-height: 1.6;">
+            <li><strong>Tipo:</strong> Modal bottom sheet (desliza de baixo para cima)</li>
+            <li><strong>Overlay:</strong> Fundo escuro semi-transparente</li>
+            <li><strong>Animação:</strong> Slide-up com backdrop blur</li>
+            <li><strong>Responsivo:</strong> Ocupa 90% da altura máxima</li>
+            <li><strong>Fechamento:</strong> Botão X, toque no overlay, ou swipe down</li>
+        </ul>
+        
+        <h3>Elementos Principais:</h3>
+        <ul style="margin: 20px 0; line-height: 1.6;">
+            <li><strong>Header:</strong> Título + botão fechar</li>
+            <li><strong>Imagem:</strong> 128x128px, centralizada</li>
+            <li><strong>Nome:</strong> Título grande e bold</li>
+            <li><strong>Descrição:</strong> Texto secundário</li>
+            <li><strong>Preço:</strong> Destaque em caixa colorida</li>
+            <li><strong>Informações:</strong> Categoria e disponibilidade</li>
+            <li><strong>Controles:</strong> Botões +/- e quantidade</li>
+            <li><strong>Subtotal:</strong> Cálculo automático</li>
+        </ul>
+        
+        <h3>Estados:</h3>
+        <ul style="margin: 20px 0; line-height: 1.6;">
+            <li><strong>Sem item:</strong> Botão "Adicionar ao Carrinho"</li>
+            <li><strong>Com item:</strong> Controles de quantidade + subtotal</li>
+        </ul>
+    </div>
+</body>
+</html>
