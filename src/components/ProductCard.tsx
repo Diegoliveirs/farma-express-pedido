@@ -16,9 +16,10 @@ interface ProductCardProps {
   quantity: number;
   onAdd: () => void;
   onRemove: () => void;
+  onProductClick: () => void;
 }
 
-const ProductCard = ({ product, quantity, onAdd, onRemove }: ProductCardProps) => {
+const ProductCard = ({ product, quantity, onAdd, onRemove, onProductClick }: ProductCardProps) => {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -26,8 +27,19 @@ const ProductCard = ({ product, quantity, onAdd, onRemove }: ProductCardProps) =
     }).format(price);
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Não abrir detalhes se clicar nos botões
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    onProductClick();
+  };
+
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div 
+      className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95"
+      onClick={handleCardClick}
+    >
       <div className="flex items-start space-x-3">
         {/* Product Image/Icon */}
         <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">

@@ -1,9 +1,9 @@
-
 import { useState } from 'react';
 import SplashScreen from '@/components/SplashScreen';
 import Header from '@/components/Header';
 import CategoryTabs from '@/components/CategoryTabs';
 import ProductCard from '@/components/ProductCard';
+import ProductDetailModal from '@/components/ProductDetailModal';
 import Cart from '@/components/Cart';
 import CustomerInfoForm from '@/components/CustomerInfoForm';
 import DeliveryOptions from '@/components/DeliveryOptions';
@@ -13,6 +13,7 @@ import SuccessScreen from '@/components/SuccessScreen';
 import { useCart } from '@/hooks/useCart';
 import { products } from '@/data/products';
 import { sendWhatsAppOrder } from '@/utils/whatsapp';
+import { Product } from '@/components/ProductCard';
 
 type FlowStep = 'products' | 'cart' | 'customer-info' | 'delivery-options' | 'address' | 'summary' | 'success';
 
@@ -37,6 +38,8 @@ const Index = () => {
   const [deliveryType, setDeliveryType] = useState<'pickup' | 'delivery' | null>(null);
   const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
   const [orderNumber, setOrderNumber] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   
   const {
     items,
@@ -108,11 +111,20 @@ const Index = () => {
     setOrderNumber('');
   };
 
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsProductDetailOpen(true);
+  };
+
+  const handleCloseProductDetail = () => {
+    setIsProductDetailOpen(false);
+    setSelectedProduct(null);
+  };
+
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 
-  // Renderizar componentes baseado no step atual
   if (currentStep === 'customer-info') {
     return (
       <CustomerInfoForm
@@ -192,6 +204,7 @@ const Index = () => {
               quantity={getItemQuantity(product.id)}
               onAdd={() => addItem(product)}
               onRemove={() => removeItem(product.id)}
+              onProductClick={() => handleProductClick(product)}
             />
           ))}
         </div>
@@ -209,6 +222,15 @@ const Index = () => {
         items={items}
         onUpdateQuantity={updateQuantity}
         onCheckout={handleCartCheckout}
+      />
+
+      <ProductDetailModal
+        product={selectedProduct}
+        isOpen={isProductDetailOpen}
+        onClose={handleCloseProductDetail}
+        quantity={selectedProduct ? getItemQuantity(selectedProduct.id) : 0}
+        onAdd={() => selectedProduct && addItem(selectedProduct)}
+        onRemove={() => selectedProduct && removeItem(selectedProduct.id)}
       />
     </div>
   );
