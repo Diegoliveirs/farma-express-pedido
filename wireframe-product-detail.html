@@ -13,7 +13,7 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
+            font-family: Inter, system-ui, sans-serif;
             background: #f3f4f6;
             padding: 20px;
         }
@@ -33,6 +33,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: flex-end;
             justify-content: center;
@@ -42,10 +43,15 @@
             background: white;
             width: 100%;
             max-width: 500px;
-            border-radius: 20px 20px 0 0;
-            border: 3px solid #000;
+            border-radius: 16px 16px 0 0;
             max-height: 90vh;
             overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
         
         .header {
@@ -53,33 +59,48 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px;
-            border-bottom: 2px solid #000;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .header h2 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #111827;
         }
         
         .close-btn {
             width: 32px;
             height: 32px;
-            border: 2px solid #000;
-            background: #f3f4f6;
+            border: none;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: #f3f4f6;
         }
         
         .content {
             padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 200px);
         }
         
         .product-image {
             width: 128px;
             height: 128px;
-            border: 2px solid #000;
+            background: #f3f4f6;
+            border-radius: 16px;
             margin: 0 auto 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f3f4f6;
+            font-size: 64px;
         }
         
         .product-info {
@@ -90,21 +111,18 @@
         .product-title {
             font-size: 20px;
             font-weight: bold;
+            color: #111827;
             margin-bottom: 12px;
-            border: 1px dashed #666;
-            padding: 8px;
         }
         
         .product-description {
-            color: #666;
+            color: #6b7280;
             margin-bottom: 16px;
-            border: 1px dashed #666;
-            padding: 8px;
+            line-height: 1.5;
         }
         
         .price-box {
             background: rgba(220, 38, 38, 0.1);
-            border: 2px solid #dc2626;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 24px;
@@ -118,13 +136,12 @@
         
         .price-label {
             font-size: 14px;
-            color: #666;
+            color: #6b7280;
             margin-top: 4px;
         }
         
         .info-box {
             background: #f9fafb;
-            border: 2px solid #000;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 24px;
@@ -132,6 +149,7 @@
         
         .info-title {
             font-weight: bold;
+            color: #111827;
             margin-bottom: 12px;
         }
         
@@ -140,13 +158,29 @@
             justify-content: space-between;
             margin-bottom: 8px;
             padding: 4px 0;
-            border-bottom: 1px dashed #ccc;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-label {
+            color: #6b7280;
+        }
+        
+        .info-value {
+            font-weight: 500;
+            color: #111827;
+        }
+        
+        .availability {
+            color: #059669 !important;
         }
         
         .footer {
-            border-top: 2px solid #000;
+            border-top: 1px solid #f3f4f6;
             padding: 16px;
-            background: #f9fafb;
+            background: white;
         }
         
         .quantity-controls {
@@ -167,15 +201,25 @@
             height: 40px;
             border: 2px solid #dc2626;
             background: white;
+            color: #dc2626;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .qty-btn:hover {
+            background: #dc2626;
+            color: white;
         }
         
         .qty-number {
             font-size: 20px;
             font-weight: bold;
+            color: #111827;
             min-width: 40px;
             text-align: center;
         }
@@ -186,7 +230,7 @@
         
         .subtotal-label {
             font-size: 14px;
-            color: #666;
+            color: #6b7280;
         }
         
         .subtotal-value {
@@ -200,27 +244,46 @@
             height: 48px;
             background: #dc2626;
             color: white;
-            border: 2px solid #000;
+            border: none;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        
+        .add-btn:hover {
+            background: #b91c1c;
         }
         
         .footer-note {
             text-align: center;
             font-size: 12px;
-            color: #666;
+            color: #6b7280;
         }
         
         .label {
             background: #ffeb3b;
             padding: 4px 8px;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
             position: absolute;
             top: -10px;
             left: 10px;
+            border-radius: 4px;
+        }
+        
+        .state-divider {
+            border: 2px dashed #9ca3af;
+            margin: 16px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f9fafb;
         }
     </style>
 </head>
@@ -233,105 +296,124 @@
             <div class="label">MODAL OVERLAY</div>
             
             <!-- Header -->
-            <div class="header wireframe">
-                <div class="label">HEADER</div>
-                <div style="font-weight: bold;">Detalhes do Produto</div>
-                <div class="close-btn">✕</div>
+            <div class="header">
+                <h2>Detalhes do Produto</h2>
+                <button class="close-btn">✕</button>
             </div>
             
             <!-- Content -->
             <div class="content">
                 <!-- Product Image -->
-                <div class="product-image wireframe">
-                    <div class="label">IMAGEM</div>
-                    <div>📦 PRODUTO</div>
+                <div class="product-image">
+                    📦
                 </div>
                 
                 <!-- Product Info -->
-                <div class="product-info wireframe">
-                    <div class="label">INFO PRODUTO</div>
-                    <div class="product-title">Nome do Produto</div>
-                    <div class="product-description">Descrição detalhada do produto aqui...</div>
+                <div class="product-info">
+                    <h3 class="product-title">Dipirona 500mg</h3>
+                    <p class="product-description">Analgésico e antitérmico - Caixa com 20 comprimidos. Indicado para dores e febre.</p>
                     
-                    <div class="price-box wireframe">
-                        <div class="label">PREÇO</div>
-                        <div class="price">R$ 29,90</div>
+                    <div class="price-box">
+                        <div class="price">R$ 9,90</div>
                         <div class="price-label">Preço por unidade</div>
                     </div>
                 </div>
                 
                 <!-- Additional Info -->
-                <div class="info-box wireframe">
-                    <div class="label">INFORMAÇÕES</div>
-                    <div class="info-title">Informações:</div>
+                <div class="info-box">
+                    <h4 class="info-title">Informações:</h4>
                     <div class="info-row">
-                        <span>Categoria:</span>
-                        <span>💊 Medicamentos</span>
+                        <span class="info-label">Categoria:</span>
+                        <span class="info-value">💊 Medicamentos</span>
                     </div>
                     <div class="info-row">
-                        <span>Disponibilidade:</span>
-                        <span style="color: green;">Em estoque</span>
+                        <span class="info-label">Disponibilidade:</span>
+                        <span class="info-value availability">Em estoque</span>
                     </div>
                 </div>
             </div>
             
             <!-- Footer -->
-            <div class="footer wireframe">
-                <div class="label">FOOTER - AÇÕES</div>
-                
-                <!-- Quantity Controls (when item in cart) -->
-                <div class="quantity-controls wireframe" style="border: 1px dashed #999; padding: 10px; margin-bottom: 10px;">
-                    <div class="label">CONTROLES QTD</div>
-                    <div class="quantity-section">
-                        <div class="qty-btn">−</div>
-                        <div class="qty-number">2</div>
-                        <div class="qty-btn">+</div>
-                    </div>
-                    <div class="subtotal">
-                        <div class="subtotal-label">Subtotal:</div>
-                        <div class="subtotal-value">R$ 59,80</div>
+            <div class="footer">
+                <!-- Estado: Produto COM quantidade no carrinho -->
+                <div class="state-divider">
+                    <div class="label">ESTADO: COM PRODUTO NO CARRINHO</div>
+                    <div class="quantity-controls">
+                        <div class="quantity-section">
+                            <button class="qty-btn">−</button>
+                            <span class="qty-number">2</span>
+                            <button class="qty-btn">+</button>
+                        </div>
+                        <div class="subtotal">
+                            <div class="subtotal-label">Subtotal:</div>
+                            <div class="subtotal-value">R$ 19,80</div>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Add Button (when item not in cart) -->
-                <div class="wireframe" style="border: 1px dashed #999; padding: 10px; margin-bottom: 10px;">
-                    <div class="label">BOTÃO ADICIONAR</div>
-                    <div class="add-btn">+ Adicionar ao Carrinho</div>
+                <!-- Estado: Produto SEM quantidade no carrinho -->
+                <div class="state-divider">
+                    <div class="label">ESTADO: SEM PRODUTO NO CARRINHO</div>
+                    <button class="add-btn">
+                        + Adicionar ao Carrinho
+                    </button>
                 </div>
                 
-                <div class="footer-note">Toque fora da tela para fechar</div>
+                <p class="footer-note">Toque fora da tela para fechar</p>
             </div>
         </div>
     </div>
     
     <!-- Specifications -->
-    <div style="margin-top: 40px; padding: 20px; background: white; border: 2px solid #000;">
-        <h2>Especificações da Tela</h2>
-        <ul style="margin: 20px 0; line-height: 1.6;">
-            <li><strong>Tipo:</strong> Modal bottom sheet (desliza de baixo para cima)</li>
-            <li><strong>Overlay:</strong> Fundo escuro semi-transparente</li>
-            <li><strong>Animação:</strong> Slide-up com backdrop blur</li>
-            <li><strong>Responsivo:</strong> Ocupa 90% da altura máxima</li>
-            <li><strong>Fechamento:</strong> Botão X, toque no overlay, ou swipe down</li>
-        </ul>
+    <div style="margin-top: 40px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="color: #111827; margin-bottom: 16px;">Especificações da Tela</h2>
         
-        <h3>Elementos Principais:</h3>
-        <ul style="margin: 20px 0; line-height: 1.6;">
-            <li><strong>Header:</strong> Título + botão fechar</li>
-            <li><strong>Imagem:</strong> 128x128px, centralizada</li>
-            <li><strong>Nome:</strong> Título grande e bold</li>
-            <li><strong>Descrição:</strong> Texto secundário</li>
-            <li><strong>Preço:</strong> Destaque em caixa colorida</li>
-            <li><strong>Informações:</strong> Categoria e disponibilidade</li>
-            <li><strong>Controles:</strong> Botões +/- e quantidade</li>
-            <li><strong>Subtotal:</strong> Cálculo automático</li>
-        </ul>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+            <div>
+                <h3 style="color: #374151; margin-bottom: 12px;">Comportamento:</h3>
+                <ul style="line-height: 1.6; color: #6b7280;">
+                    <li>Modal bottom sheet (slide-up animation)</li>
+                    <li>Overlay com blur backdrop</li>
+                    <li>Animação suave de 0.3s ease-out</li>
+                    <li>Max-height de 90vh com scroll interno</li>
+                    <li>Fechamento: botão X, toque no overlay</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 style="color: #374151; margin-bottom: 12px;">Layout:</h3>
+                <ul style="line-height: 1.6; color: #6b7280;">
+                    <li>Header fixo com título e botão fechar</li>
+                    <li>Conteúdo scrollável no meio</li>
+                    <li>Footer fixo com ações</li>
+                    <li>Imagem 128x128px centralizada</li>
+                    <li>Preço destacado em caixa colorida</li>
+                </ul>
+            </div>
+        </div>
         
-        <h3>Estados:</h3>
-        <ul style="margin: 20px 0; line-height: 1.6;">
-            <li><strong>Sem item:</strong> Botão "Adicionar ao Carrinho"</li>
-            <li><strong>Com item:</strong> Controles de quantidade + subtotal</li>
-        </ul>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div>
+                <h3 style="color: #374151; margin-bottom: 12px;">Estados:</h3>
+                <ul style="line-height: 1.6; color: #6b7280;">
+                    <li><strong>Sem item:</strong> Botão "Adicionar ao Carrinho"</li>
+                    <li><strong>Com item:</strong> Controles +/- e subtotal</li>
+                    <li>Transição suave entre estados</li>
+                    <li>Atualização em tempo real</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 style="color: #374151; margin-bottom: 12px;">Cores & Tipografia:</h3>
+                <ul style="line-height: 1.6; color: #6b7280;">
+                    <li>Vermelho primário: #DC2626</li>
+                    <li>Cinza texto: #6B7280</li>
+                    <li>Verde disponibilidade: #059669</li>
+                    <li>Font: Inter, system-ui</li>
+                    <li>Border-radius: 12px (caixas), 16px (modal)</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </body>
 </html>
