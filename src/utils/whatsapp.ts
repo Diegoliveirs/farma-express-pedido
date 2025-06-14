@@ -37,7 +37,7 @@ export const generateWhatsAppMessage = (orderData: OrderData) => {
   const deliveryFee = orderData.addressInfo?.deliveryFee || 0;
   const total = subtotal + deliveryFee;
   
-  let message = "🏥 *NOVO PEDIDO - Farmácia Express*\n\n";
+  let message = "🏥 *NOVO PEDIDO - Farmácia Amiga*\n\n";
   
   // Número do pedido
   message += `📋 *Pedido:* #${orderData.orderNumber}\n\n`;

@@ -50,7 +50,7 @@ const SuccessScreen = ({ orderNumber, onBackToHome }: SuccessScreenProps) => {
         </div>
         
         <p className="text-xs text-gray-500 mt-8">
-          Obrigado por escolher a Farmácia Express! 💚
+          Obrigado por escolher a Farmácia Amiga! 💚
         </p>
       </div>
     </div>

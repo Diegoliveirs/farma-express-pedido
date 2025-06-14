@@ -33,7 +33,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         
         {/* Nome */}
         <h1 className="text-3xl font-bold text-white mb-2">
-          Farmácia Express
+          Farmácia Amiga
         </h1>
         <p className="text-white/90 text-lg mb-8">
           Seus medicamentos na palma da mão
